@@ -73,12 +73,14 @@ import pydicom.pixel_data_handlers.rle_handler as rle_handler  # noqa
 import pydicom.pixel_data_handlers.pillow_handler as pillow_handler  # noqa
 import pydicom.pixel_data_handlers.jpeg_ls_handler as jpegls_handler  # noqa
 import pydicom.pixel_data_handlers.gdcm_handler as gdcm_handler  # noqa
+import pydicom.pixel_data_handlers.glymur_handler as glymur_handler
 
 pixel_data_handlers = [
     np_handler,
     rle_handler,
     gdcm_handler,
     pillow_handler,
+    glymur_handler,
     jpegls_handler,
 ]
 """Handlers for converting (7fe0,0010) Pixel Data.
