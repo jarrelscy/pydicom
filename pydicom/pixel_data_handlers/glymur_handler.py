@@ -45,7 +45,7 @@ DEPENDENCIES = {
 
 def is_available():
     """Return True if the handler has its dependencies met."""
-    return HAVE_NP and HAVE_PIL
+    return HAVE_NP and HAVE_GLYMUR
 
 
 def supports_transfer_syntax(transfer_syntax):
@@ -92,9 +92,9 @@ def get_pixeldata(dicom_dataset):
     logger.debug("Trying to use Glymur to read pixel array "
                  "(has glymur = %s)", HAVE_GLYMUR)
     transfer_syntax = dicom_dataset.file_meta.TransferSyntaxUID
-    if not HAVE_PIL:
-        msg = ("The pillow package is required to use pixel_array for "
-               "this transfer syntax {0}, and pillow could not be "
+    if not HAVE_GLYMUR:
+        msg = ("The glymur package is required to use pixel_array for "
+               "this transfer syntax {0}, and glymur could not be "
                "imported.".format(transfer_syntax.name))
         raise ImportError(msg)
 
