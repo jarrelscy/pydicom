@@ -1,5 +1,6 @@
 *pydicom*
 =======
+Added Glymur as pixel data handler - I think this is possibly faster?
 
 [![Build Status](https://travis-ci.org/pydicom/pydicom.svg?branch=master)](https://travis-ci.org/pydicom/pydicom)
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/1vjtkr82lumnd3i7?svg=true)](https://ci.appveyor.com/project/glemaitre/pydicom)
