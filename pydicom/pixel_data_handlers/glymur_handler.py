@@ -153,7 +153,7 @@ def get_pixeldata(dicom_dataset):
                 fio = io.BytesIO(data)
                 try:
                     with tempfile.NamedTemporaryFile() as f:
-                        f.write(fio)
+                        f.write(fio.getvalue())
                         f.seek(0)
                         decompressed_image = glymur.Jp2k(f.name)[:]
                 except IOError as e:
@@ -168,7 +168,7 @@ def get_pixeldata(dicom_dataset):
             try:
                 fio = io.BytesIO(pixel_data)
                 with tempfile.NamedTemporaryFile() as f:
-                    f.write(fio)
+                    f.write(fio.getvalue())
                     f.seek(0)
                     decompressed_image = glymur.Jp2k(f.name)[:]
             except IOError as e:
