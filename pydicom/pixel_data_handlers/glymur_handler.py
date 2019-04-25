@@ -11,12 +11,16 @@ except ImportError:
     HAVE_NP = False
 
 try:
-    import glymur
-    glymur.set_option('lib.num_threads', 32)
+    import glymur    
     HAVE_GLYMUR = True
 except ImportError:
     HAVE_GLYMUR = False
-
+    
+if HAVE_GLYMUR:
+    try:
+        glymur.set_option('lib.num_threads', 32)
+    except:
+        pass
 import pydicom.encaps
 from pydicom.pixel_data_handlers.util import dtype_corrected_for_endianness
 import pydicom.uid
