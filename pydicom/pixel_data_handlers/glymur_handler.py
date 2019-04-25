@@ -163,11 +163,10 @@ def get_pixeldata(dicom_dataset):
                 pixel_data[frame_start_from:]
             try:
                 fio = io.BytesIO(pixel_data)
-                try:
-                    with tempfile.NamedTemporaryFile() as f:
-                        f.write(fio)
-                        f.seek(0)
-                        decompressed_image = glymur.Jp2k(f.name)[:]
+                with tempfile.NamedTemporaryFile() as f:
+                    f.write(fio)
+                    f.seek(0)
+                    decompressed_image = glymur.Jp2k(f.name)[:]
             except IOError as e:
                 raise NotImplementedError(e.strerror)
             UncompressedPixelData.extend(decompressed_image.tobytes())
