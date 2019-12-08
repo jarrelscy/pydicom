@@ -6,6 +6,7 @@ import logging
 
 try:
     import numpy
+    import numpy as np
     HAVE_NP = True
 except ImportError:
     HAVE_NP = False
@@ -79,6 +80,12 @@ def should_change_PhotometricInterpretation_to_RGB(dicom_dataset):
     should_change = dicom_dataset.SamplesPerPixel == 3
     return False
 
+def read_uint12(data_chunk):
+    data = np.frombuffer(data_chunk, dtype=np.uint8)
+    fst_uint8, mid_uint8, lst_uint8 = np.reshape(data, (data.shape[0] // 3, 3)).astype(np.uint16).T
+    fst_uint12 = (fst_uint8 << 4) + (mid_uint8 >> 4)
+    snd_uint12 = ((mid_uint8 % 16) << 8) + lst_uint8
+    return np.reshape(np.concatenate((fst_uint12[:, None], snd_uint12[:, None]), axis=1), 2 * fst_uint12.shape[0])
 
 def get_pixeldata(dicom_dataset):
     """Use Pillow to decompress compressed Pixel Data.
@@ -137,7 +144,10 @@ def get_pixeldata(dicom_dataset):
     else:
         format_str = 'bad_pixel_representation'
     try:
-        numpy_format = numpy.dtype(format_str)
+        if format_str == 'uint12':
+            numpy_format = 'uint8'
+        else:
+            numpy_format = numpy.dtype(format_str)
     except TypeError:
         msg = ("Data type not understood by NumPy: "
                "format='{}', PixelRepresentation={}, "
@@ -204,9 +214,12 @@ def get_pixeldata(dicom_dataset):
     logger.debug(
         "Successfully read %s pixel bytes", len(UncompressedPixelData)
     )
-
-    pixel_array = numpy.frombuffer(UncompressedPixelData, numpy_format)
-
+    if format_str == 'uint12':
+        pixel_array = read_uint12(UncompressedPixelData)
+    else:
+        pixel_array = numpy.frombuffer(UncompressedPixelData, numpy_format)
+    
+        
     if (transfer_syntax in
             PillowJPEG2000TransferSyntaxes and
             dicom_dataset.BitsStored == 16):
