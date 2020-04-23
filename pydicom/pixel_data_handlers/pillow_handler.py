@@ -95,9 +95,12 @@ def read_uint12(data_chunk):
     fst_uint12 = (fst_uint8 << 4) + (mid_uint8 >> 4)
     snd_uint12 = ((mid_uint8 % 16) << 8) + lst_uint8
     return np.reshape(np.concatenate((fst_uint12[:, None], snd_uint12[:, None]), axis=1), 2 * fst_uint12.shape[0])
+<<<<<<< HEAD
 
 def get_pixeldata(ds):
     """Return a :class:`numpy.ndarray` of the *Pixel Data*.
+=======
+>>>>>>> 40d12d1cdd47aaee0e294c2116fae8afc96f1d8c
 
     Parameters
     ----------
