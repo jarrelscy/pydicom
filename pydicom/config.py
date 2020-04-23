@@ -151,9 +151,9 @@ import pydicom.pixel_data_handlers.glymur_handler as glymur_handler
 pixel_data_handlers = [
     np_handler,
     rle_handler,
+    glymur_handler,
     gdcm_handler,
     pillow_handler,
-    glymur_handler,
     jpegls_handler,
 ]
 """Handlers for converting (7FE0,0010) *Pixel Data*.
